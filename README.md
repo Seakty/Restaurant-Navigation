@@ -38,6 +38,7 @@ cd Restaurant-Navigation
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+```
 
 ![image](https://github.com/user-attachments/assets/86541649-2162-4f38-ab22-f693ba56d5e3)
 
