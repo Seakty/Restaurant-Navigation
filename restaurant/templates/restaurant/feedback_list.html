@@ -1,0 +1,104 @@
+<div class="feedback-container">
+    <h2>Customer Feedback</h2>
+    {% for feedback in feedbacks %}
+        <div class="feedback-card">
+            <div class="feedback-header">
+                <h3>{{ feedback.user.username }}</h3>
+                <p class="rating">Rating: <span>{{ feedback.rating }}/5</span></p>
+            </div>
+            <p class="feedback-comments">{{ feedback.comments }}</p>
+            <p class="feedback-date">{{ feedback.created_at|date:"F j, Y, g:i a" }}</p>
+        </div>
+    {% empty %}
+        <p>No feedback available for this restaurant.</p>
+    {% endfor %}
+</div>
+
+
+<style>
+    /* General container style */
+    .feedback-container {
+        margin: 50px auto;
+        padding: 30px;
+        max-width: 900px;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Title styling */
+    h2 {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 40px;
+        letter-spacing: 1px;
+    }
+
+    /* Feedback card styling */
+    .feedback-card {
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        border-left: 5px solid #3498db;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .feedback-card:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Header inside feedback card */
+    .feedback-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .feedback-header h3 {
+        font-size: 1.4rem;
+        margin: 0;
+        color: #34495e;
+        font-weight: 500;
+    }
+
+    .rating {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #3498db;
+    }
+
+    .rating span {
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    /* Feedback comments styling */
+    .feedback-comments {
+        margin-top: 10px;
+        font-size: 1.1rem;
+        color: #7f8c8d;
+        line-height: 1.6;
+    }
+
+    /* Feedback date styling */
+    .feedback-date {
+        margin-top: 15px;
+        font-size: 0.9rem;
+        color: #95a5a6;
+        text-align: right;
+        font-style: italic;
+    }
+
+    /* Empty feedback message styling */
+    .feedback-container p {
+        text-align: center;
+        font-size: 1.1rem;
+        color: #bdc3c7;
+        font-style: italic;
+    }
+</style>

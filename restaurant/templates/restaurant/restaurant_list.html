@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #FF5722;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+            --card-background: #fff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1em 2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1em;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        header {
+            text-align: center;
+            padding: 2em;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        header h1 {
+            margin: 0 0 1em;
+        }
+
+        header form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        header select, header input[type="text"] {
+            padding: 0.5em;
+            border: none;
+            border-radius: var(--border-radius);
+        }
+
+        header button {
+            padding: 0.5em 1em;
+            border: none;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2em auto;
+            padding: 1em;
+        }
+
+        .restaurant-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5em;
+        }
+
+        .restaurant-card {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px var(--shadow-color);
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .restaurant-card:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s;
+        }
+
+        .restaurant-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .restaurant-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .restaurant-card .content {
+            padding: 1em;
+        }
+
+        .restaurant-card h2 {
+            margin: 0 0 0.5em;
+            color: var(--primary-color);
+        }
+
+        .restaurant-card p {
+            margin: 0.5em 0;
+        }
+
+        .restaurant-card a.location-link {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        .location-link {
+            text-decoration: underline;
+            color: blue;
+        }
+        .location-link:hover {
+            color: darkblue;
+            opacity: 0.8;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(1);
+        }
+        
+        .page-link {
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            color: #007bff;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .page-link:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        button.scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #FF5722;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .pagination a, .pagination span {
+            padding: 0.5em 1em;
+            background-color: #3a3a3a; /* Dark gray for a sleek look */
+            color: #f0f0f0; /* Light gray text */
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .pagination a:hover, .pagination a:focus {
+            background-color: #5c5c5c; /* Slightly lighter gray on hover */
+            transform: scale(1.05); /* Slight zoom effect on hover */
+        }
+        
+        .pagination .current {
+            background-color: #ff6347; /* Cool tomato red for the current page */
+            color: #ffffff;
+            font-weight: bold;
+        }
+        
+        .pagination .page-link {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .pagination .page-numbers {
+            display: flex;
+            gap: 0.5em;
+        }
+        
+    </style>
+</head>
+<body>
+    {% include 'restaurant/navbar.html' %}
+
+    <header style="text-align: center; padding: 20px; background-color: #f8f9fa; border-bottom: 2px solid #ddd;">
+        <h1 style="font-size: 2.5rem; color: #333; margin-bottom: 10px;">
+            🍽️ Discover Amazing Restaurants 🍴
+        </h1>
+        <p style="color: #666; font-size: 1.1rem; margin-bottom: 20px;">
+            Find the best places to eat near you! Explore by category or search by name.
+        </p>
+        <form method="get" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+            <select name="category" style="padding: 10px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px;">
+                <option value="">🔍 All Categories</option>
+                {% for value, label in categories %}
+                    <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="text" name="q" placeholder="🍕 Search for restaurants..." 
+                   value="{{ search_query }}" 
+                   style="padding: 10px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px; width: 250px;">
+            <button type="submit" 
+                    style="padding: 10px 20px; font-size: 1rem; color: #fff; background-color: #007bff; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s, transform 0.2s;">
+                🔎 Search
+            </button>
+        </form>
+    </header>    
+
+    <div class="container">
+        <div class="restaurant-list">
+            {% for restaurant in restaurants %}
+                <div class="restaurant-card">
+                    <a href="{% url 'menu_list' restaurant.id %}">
+                        {% if restaurant.image %}
+                            <img src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}">
+                        {% else %}
+                            <img src="/static/default-image.jpg" alt="Default Image">
+                        {% endif %}
+                        <div class="content">
+                            <h2>{{ restaurant.name }}</h2>
+                            <p><strong>Location:</strong> 
+                                {% if restaurant.google_maps_link %}
+                                📍<a href="{{ restaurant.google_maps_link|safe }}" target="_blank" rel="noopener noreferrer" class="location-link">
+                                        {{ restaurant.location }}
+                                    </a>
+                                {% else %}
+                                    📍{{ restaurant.location }}
+                                {% endif %}
+                            </p>                            
+                            <p><strong>Cuisine:</strong> {{ restaurant.get_cuisine_display }}</p>
+                            <p><strong>Rating:</strong> ⭐ {{ restaurant.rating }}</p>
+                            <p>{{ restaurant.get_short_description }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <p>No restaurants found. Try a different search or category!</p>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            {% if restaurants.has_previous %}
+                <a href="?page={{ restaurants.previous_page_number }}" class="page-link prev">&laquo; Previous</a>
+            {% endif %}
+            <div class="page-numbers">
+                {% for num in restaurants.paginator.page_range %}
+                    {% if num == restaurants.number %}
+                        <span class="page-number current">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-number">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% if restaurants.has_next %}
+                <a href="?page={{ restaurants.next_page_number }}" class="page-link next">Next &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer style="background-color: #1c2b36; color: #ecf0f1; text-align: center; padding: 20px; margin-top: 30px;">
+        <p style="margin: 0;">&copy; 2025 My Restaurant Site. All rights reserved.</p>
+        <div style="margin-top: 10px;">
+            <a href="https://t.me/+kIxuuaNmsHJlOGVl" style="color: #ff6f61; text-decoration: none; margin: 0 10px;">Contact Us</a> | 
+            <a href="/terms" style="color: #ff6f61; text-decoration: none; margin: 0 10px;">Terms of Service</a> | 
+            <a href="/privacy" style="color: #ff6f61; text-decoration: none; margin: 0 10px;">Privacy Policy</a>
+        </div>
+        <div style="margin-top: 15px;">
+            <a href="https://www.facebook.com/sambath.seakty.7?mibextid=ZbWKwL" target="_blank" style="color: #ecf0f1; margin: 0 10px;">
+                <img src="/static/facebook-icon.png" alt="Facebook" style="width: 24px;">
+            </a>
+            <a href="https://www.instagram.com/sambathseakty/profilecard/?igsh=aGIwOGp3dm5sNmJp" target="_blank" style="color: #ecf0f1; margin: 0 10px;">
+                <img src="/static/instagram-icon.png" alt="Instagram" style="width: 24px;">
+            </a>
+        </div>
+    </footer>  
+    
+    <button onclick="scrollToTop()"
+        style="position: fixed; bottom: 20px; right: 20px; background-color: #FF5722; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 25px; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        🚀
+    </button>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

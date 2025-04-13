@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            animation: fadeInBody 1s ease-out;
+        }
+
+        nav {
+            background-color: #1c2b36;
+            color: #ecf0f1;
+            width: 100%;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 8px 8px;
+            opacity: 0;
+            animation: slideInNav 0.7s ease-out forwards;
+        }
+
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #bdc3c7;
+        }
+
+        nav img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        nav span {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .feedback-form-container {
+            width: 90%;
+            max-width: 600px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            animation: slideUpForm 1s ease-out forwards 0.2s;
+        }
+
+        .feedback-form-container h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: 500;
+            color: #34495e;
+            display: block;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #dcdfe3;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #3498db;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: #3498db;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: fit-content;
+            align-self: center;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1c2b36;
+            color: #ecf0f1;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            width: 100%;
+            opacity: 0;
+            animation: slideInFooter 1s ease-out forwards 0.6s;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeInBody {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInNav {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            80% {
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUpForm {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFooter {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'restaurant/navbar.html' %}
+
+    <div class="feedback-form-container">
+        <h1>Give Feedback for {{ restaurant.name }}</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-row">
+                <label for="comments">Comments:</label>
+                <textarea id="comments" name="comments" rows="4"></textarea>
+            </div>
+            <div class="form-row">
+                <label for="rating">Rating:</label>
+                <input id="rating" type="float" name="rating" min="1" max="5">
+            </div>
+            <button type="submit">Submit Feedback</button>
+        </form>        
+    </div>
+
+    <footer>
+        &copy; 2025 My Restaurant Site. All rights reserved.
+    </footer>
+</body>
+</html>

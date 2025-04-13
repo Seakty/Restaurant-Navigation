@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ restaurant.name }} - Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Fade-in animation for the entire page */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f3f4f6, #e8e9eb);
+            color: #333;
+            animation: fadeIn 1.5s ease-out;
+        }
+    
+        /* Fade-in keyframe */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    
+        /* Header styling */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: #fff;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+    
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: #2c3e50;
+        }
+    
+        header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+    
+        /* Menu container */
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 0 20px;
+        }
+    
+        /* Menu card styling */
+        .menu-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+    
+        .menu-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+    
+        /* Menu image styling */
+        .menu-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+    
+        .menu-card:hover img {
+            transform: scale(1.1);
+        }
+    
+        /* Menu details */
+        .menu-details h2 {
+            font-size: 1.5rem;
+            margin: 0 0 10px;
+            color: #34495e;
+        }
+    
+        .menu-details p {
+            font-size: 1rem;
+            margin: 5px 0;
+            color: #7f8c8d;
+        }
+    
+        .menu-details strong {
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+    
+        /* No menu available message */
+        .no-menu {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #7f8c8d;
+            margin-top: 50px;
+        }
+    
+        /* Navbar styling */
+        .navbar {
+            background-color: #1c2b36;
+            color: #ecf0f1;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+    
+        .navbar-brand {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+    
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+    
+        .navbar-logo {
+            height: 45px;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+    
+        .navbar-logo:hover {
+            transform: rotate(10deg);
+        }
+    
+        .site-title {
+            font-size: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+        }
+    
+        .navbar-links {
+            display: flex;
+            gap: 20px;
+        }
+    
+        .navbar-link {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease-in-out;
+        }
+    
+        .navbar-link:hover {
+            color: #ff6f61;
+            transform: translateY(-3px);
+        }
+    
+        /* Feedback container */
+        .feedback-container {
+            text-align: center;
+            margin: 30px;
+        }
+    
+        /* Feedback button styling */
+        .feedback-button {
+            background-color: #004aad;
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+    
+        .feedback-button:hover {
+            background-color: #003d91;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+    
+        .feedback-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            transform: skewX(-45deg);
+            transition: left 0.5s ease;
+        }
+    
+        .feedback-button:hover::before {
+            left: 100%;
+        }
+    
+        .feedback-button a {
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+    
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeInModal 0.5s ease-in-out;
+        }
+    
+        /* Modal fade-in effect */
+        @keyframes fadeInModal {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            border-radius: 10px;
+            transform: scale(0.95);
+            animation: modalIn 0.3s ease-out;
+        }
+    
+        /* Modal scale-up effect */
+        @keyframes modalIn {
+            0% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    
+        .modal .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    
+        .modal .close:hover,
+        .modal .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    
+</head>
+<body>
+    {% include 'restaurant/navbar.html' %}
+    
+    <header>
+        <h1>{{ restaurant.name }}</h1>
+        <p>{{ restaurant.description }}</p>
+    </header>
+
+    <div class="menu-container">
+        {% for menu in menus %}
+            <div class="menu-card">
+                {% if menu.image %}
+                    <img src="{{ menu.image.url }}" alt="{{ menu.name }}">
+                {% else %}
+                    <img src="/static/default-menu-image.jpg" alt="Default Menu Image">
+                {% endif %}
+                <div class="menu-details">
+                    <h2>{{ menu.name }}</h2>
+                    <p>{{ menu.description }}</p>
+                    <p><strong>Price:</strong> ${{ menu.price }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <div class="no-menu">
+                <p>No menu items available for this restaurant.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% include 'restaurant/feedback_list.html' %}
+
+    
+    <div class="feedback-container">
+        <button class="feedback-button">
+            {% if user.is_authenticated %}
+                <a href="{% url 'feedback-create' restaurant.id %}">Give Feedback</a>
+            {% else %}
+                <span>Log in to Give Feedback</span>
+            {% endif %}
+        </button>
+    </div>   
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>You need to log in to give feedback.</p>
+            <a href="{% url 'login' %}?next={% url 'feedback-create' restaurant.id %}" class="btn btn-primary">Log In</a>
+        </div>
+    </div>
+
+    <script>
+        // Handle feedback button click for unauthenticated users
+        const feedbackButton = document.querySelector('.feedback-button');
+        const modal = document.getElementById('loginModal');
+        const closeModal = document.querySelector('.modal .close');
+
+        feedbackButton.addEventListener('click', function (event) {
+            if (!{{ user.is_authenticated|lower }}) {
+                event.preventDefault();
+                modal.style.display = 'block';
+            }
+        });
+
+        closeModal.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+    
+</body>
+</html>

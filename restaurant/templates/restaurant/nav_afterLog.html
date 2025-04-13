@@ -1,0 +1,58 @@
+<style>
+    .navbar {
+        background-color: #1c2b36;
+        color: #ecf0f1;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .navbar-brand {
+        color: #ecf0f1;
+        text-decoration: none;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .navbar-brand:hover {
+        color: #ff6f61;
+        transform: scale(1.05);
+    }
+
+    .navbar-logo {
+        height: 50px;
+        margin-right: 15px;
+    }
+
+    .navbar-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .navbar-link {
+        color: #ecf0f1;
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+    }
+
+    .navbar-link:hover {
+        color: #ff6f61;
+    }
+</style>
+
+<nav class="navbar">
+    <a href="{% url 'restaurant_list' %}" class="navbar-brand">
+        <img src="/static/logo.png" alt="Logo" class="navbar-logo">
+        <span>My Restaurant Site</span>
+    </a>
+    <div class="navbar-links">
+        <a href="{% url 'about' %}" class="navbar-link">About Us</a>
+    </div>
+</nav>
